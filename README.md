@@ -1,3 +1,12 @@
+> **NOTICE!**
+> As of Jan. 1, 2019, Captricity has stopped active development and maintenance of this project.
+> 
+> We know that there are external users of the project. So we will continue to host
+> the project for the time being. We may review and accept minor bug-fixes to the project, 
+> but make no commitment to doing so on an on-going basis.
+>
+
+
 mocurly
 =======
 
