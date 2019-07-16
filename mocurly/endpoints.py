@@ -329,7 +329,7 @@ class TransactionsEndpoint(BaseRecurlyEndpoint):
         # Every new transaction creates a new invoice
         new_invoice = {'account': account_code,
                        'uuid': self.generate_id(),
-                       'state': 'collected',
+                       'state': 'paid',
                        'invoice_number': InvoicesEndpoint.generate_invoice_number(),
                        'subtotal_in_cents': int(create_info['amount_in_cents']),
                        'currency': create_info['currency'],
@@ -554,7 +554,7 @@ class InvoicesEndpoint(BaseRecurlyEndpoint):
         # New invoice tracking refund
         new_invoice = {'account': invoice['account'],
                        'uuid': self.generate_id(),
-                       'state': 'collected',
+                       'state': 'paid',
                        'invoice_number': InvoicesEndpoint.generate_invoice_number(),
                        'subtotal_in_cents': -int(amount_to_refund),
                        'currency': invoice['currency'],

@@ -312,7 +312,7 @@ class TestAccount(unittest.TestCase):
         base_invoice_data = {
                 'account': self.base_account_data['account_code'],
                 'uuid': 'foo',
-                'state': 'collected',
+                'state': 'paid',
                 'invoice_number': '1234',
                 'subtotal_in_cents': 1000,
                 'currency': 'USD',

@@ -47,7 +47,7 @@ class TestTransaction(unittest.TestCase):
         self.base_invoice_data = {
                 'account': self.base_account_data['uuid'],
                 'uuid': 'foo',
-                'state': 'collected',
+                'state': 'paid',
                 'invoice_number': '1234',
                 'subtotal_in_cents': self.base_transaction_data['amount_in_cents'],
                 'currency': self.base_transaction_data['currency'],
@@ -126,7 +126,7 @@ class TestTransaction(unittest.TestCase):
         new_invoice_backed = mocurly.backend.invoices_backend.get_object(str(new_invoice.invoice_number))
         self.assertEqual(len(new_invoice_backed['transactions']), 1)
         self.assertEqual(new_invoice_backed['transactions'][0], new_transaction.uuid)
-        self.assertEqual(new_invoice_backed['state'], 'collected')
+        self.assertEqual(new_invoice_backed['state'], 'paid')
         self.assertEqual(new_invoice_backed['subtotal_in_cents'], self.base_transaction_data['amount_in_cents'])
         self.assertEqual(new_invoice_backed['total_in_cents'], self.base_transaction_data['amount_in_cents'])
         self.assertEqual(new_invoice_backed['currency'], self.base_transaction_data['currency'])

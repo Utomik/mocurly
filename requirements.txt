@@ -1,3 +1,4 @@
+httpretty==0.9.6
 recurly>=2.2.23
 jinja2
 six
