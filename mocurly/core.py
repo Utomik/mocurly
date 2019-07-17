@@ -144,6 +144,15 @@ class mocurly(object):
         from .endpoints import transactions_endpoint
         transactions_endpoint.register_transaction_failure(account_code, error_code)
 
+    def register_billing_info_failure(self, account_code, error_code):
+        """Register a billing info failure for the given account.
+
+        This will setup mocurly such that all billing info updates made by the account
+        with the given `account_code` will fail with the selected `error_code`.
+        """
+        from .endpoints import accounts_endpoint
+        accounts_endpoint.register_transaction_failure(account_code, error_code)
+
     def _register(self):
         """Walks the endpoints to register all its URIs to HTTPretty so that
         they can mock recurly requests.

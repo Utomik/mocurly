@@ -1,0 +1,11 @@
+<transaction_error>
+    <error_code>{{ billing_info_error.error_code }}</error_code>
+    <error_category>{{ billing_info_error.error_category }}</error_category>
+    <merchant_message>{{ billing_info_error.merchant }}</merchant_message>
+    <customer_message>{{ billing_info_error.customer }}</customer_message>
+    <gateway_error_code nil="nil"></gateway_error_code>
+    {% if billing_info_error.three_d_secure_action_token_id %}
+    <three_d_secure_action_token_id>{{ billing_info_error.three_d_secure_action_token_id }}</three_d_secure_action_token_id>
+    {% endif %}
+</transaction_error>
+<error field="billing_info.base" symbol="{{ billing_info_error.error_category }}">{{ billing_info_error.customer }}</error>

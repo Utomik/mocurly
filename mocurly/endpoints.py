@@ -132,6 +132,16 @@ class AccountsEndpoint(BaseRecurlyEndpoint):
     object_type_plural = 'accounts'
     template = 'account.xml'
 
+    def __init__(self):
+        self.registered_errors = {}
+        super(AccountsEndpoint, self).__init__()
+
+    def register_transaction_failure(self, account_code, error_code):
+        """Registers an error_code to associate with the given account for all
+        transactions made by the account
+        """
+        self.registered_errors[account_code] = error_code
+
     def uris(self, obj):
         uri_out = super(AccountsEndpoint, self).uris(obj)
         uri_out['adjustments_uri'] = uri_out['object_uri'] + '/adjustments'
@@ -193,6 +203,22 @@ class AccountsEndpoint(BaseRecurlyEndpoint):
 
     @details_route('PUT', 'billing_info')
     def update_billing_info(self, pk, update_info, format=BaseRecurlyEndpoint.XML):
+        # Check to see if we need to throw an error for card failure
+        if pk in self.registered_errors:
+            error_code = self.registered_errors[pk]
+            create_info = {
+                'account': {self.pk_attr: pk},
+                'currency': 'EUR',
+                'amount_in_cents': 0,
+                'voidable': False,
+                'refundable': False,
+                'status': 'declined',
+                'created_at': current_time().isoformat()
+            }
+            transaction_xml = TransactionsEndpoint().create(create_info, format)
+            billing_info_error = TRANSACTION_ERRORS[error_code]
+            error_xml = serialize('billing_info_error.xml', 'billing_info_error', billing_info_error)
+            raise ResponseError(422, '<errors>{0}{1}</errors>'.format(error_xml, transaction_xml))
         if billing_info_backend.has_object(pk):
             out = billing_info_backend.update_object(pk, update_info)
         else:
