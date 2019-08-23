@@ -853,7 +853,7 @@ class SubscriptionsEndpoint(BaseRecurlyEndpoint):
         # Trial dates need to be calculated
         if 'trial_ends_at' in create_info:
             create_info['trial_started_at'] = now.isoformat()
-        elif plan['trial_interval_length'] and plan['trial_interval_length'] > 0:
+        elif plan['trial_interval_length'] and int(plan['trial_interval_length']) > 0:
             create_info['trial_started_at'] = now.isoformat()
             create_info['trial_ends_at'] = (now + self._calculate_timedelta(plan['trial_interval_unit'], plan['trial_interval_length'])).isoformat()
 
